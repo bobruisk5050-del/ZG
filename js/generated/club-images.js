@@ -19,4 +19,30 @@ window.CLUB_IMAGES = [
     "isHero": false
   }
 ];
-window.GAME_IMAGES = [];
+window.GAME_IMAGES = [
+  {
+    "file": "arizona.jpg",
+    "src": "assets/games/arizona.jpg",
+    "base": "arizona"
+  },
+  {
+    "file": "beat saber.png",
+    "src": "assets/games/beat%20saber.png",
+    "base": "beat saber"
+  },
+  {
+    "file": "Gorn.png",
+    "src": "assets/games/Gorn.png",
+    "base": "Gorn"
+  },
+  {
+    "file": "half life.jpg",
+    "src": "assets/games/half%20life.jpg",
+    "base": "half life"
+  },
+  {
+    "file": "pavlov.jpg",
+    "src": "assets/games/pavlov.jpg",
+    "base": "pavlov"
+  }
+];
