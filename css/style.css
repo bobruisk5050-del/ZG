@@ -37,7 +37,7 @@ img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; border: none; background: none; cursor: pointer; color: inherit; }
 
-/* Мягкие пятна света на фоне — медленно плывут */
+/* Пятна света: загораются в разных местах (позиции задаёт JS) */
 .neon-orbits {
   position: fixed;
   inset: 0;
@@ -47,8 +47,10 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 }
 .neon-orbit {
   position: absolute;
-  width: clamp(18rem, 44vw, 46rem);
-  height: clamp(18rem, 44vw, 46rem);
+  top: 40%;
+  left: 40%;
+  width: clamp(16rem, 40vw, 40rem);
+  height: clamp(16rem, 40vw, 40rem);
   border: none;
   border-radius: 50%;
   background: radial-gradient(
@@ -56,99 +58,76 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
     currentColor 0%,
     transparent 70%
   );
-  filter: blur(42px);
-  opacity: 0.42;
-  will-change: transform, opacity;
-  animation:
-    blob-drift 22s ease-in-out infinite alternate,
-    blob-pulse 8s ease-in-out infinite;
+  filter: blur(44px);
+  opacity: 0;
+  will-change: transform, opacity, top, left;
+  animation: blob-glow 9s ease-in-out infinite;
 }
 .neon-orbit:nth-child(1) {
-  top: -20%; left: -14%;
+  width: clamp(18rem, 44vw, 44rem);
+  height: clamp(18rem, 44vw, 44rem);
   color: rgba(168, 85, 255, 0.95);
-  animation-duration: 20s, 7s;
-  animation-delay: 0s, -1s;
+  animation-duration: 8.5s;
+  animation-delay: 0s;
 }
 .neon-orbit:nth-child(2) {
-  top: 8%; right: -16%;
-  width: clamp(15rem, 38vw, 38rem);
-  height: clamp(15rem, 38vw, 38rem);
-  color: rgba(56, 232, 255, 0.9);
-  animation-duration: 26s, 9s;
-  animation-delay: -5s, -3s;
+  width: clamp(14rem, 34vw, 34rem);
+  height: clamp(14rem, 34vw, 34rem);
+  color: rgba(34, 211, 238, 0.9);
+  animation-duration: 10s;
+  animation-delay: -2.5s;
 }
 .neon-orbit:nth-child(3) {
-  bottom: -18%; left: 4%;
-  width: clamp(20rem, 48vw, 44rem);
-  height: clamp(16rem, 36vw, 34rem);
+  width: clamp(17rem, 42vw, 40rem);
+  height: clamp(14rem, 34vw, 32rem);
   border-radius: 55% 45% 60% 40%;
-  color: rgba(255, 64, 160, 0.92);
-  animation-duration: 24s, 7.5s;
-  animation-delay: -11s, -2s;
+  color: rgba(244, 63, 160, 0.92);
+  animation-duration: 9.2s;
+  animation-delay: -5s;
 }
 .neon-orbit:nth-child(4) {
-  top: 36%; left: 28%;
-  width: clamp(13rem, 30vw, 30rem);
-  height: clamp(13rem, 30vw, 30rem);
-  color: rgba(236, 72, 255, 0.85);
-  animation-duration: 30s, 10s;
-  animation-delay: -14s, -4s;
+  width: clamp(12rem, 28vw, 28rem);
+  height: clamp(12rem, 28vw, 28rem);
+  color: rgba(192, 38, 255, 0.88);
+  animation-duration: 11s;
+  animation-delay: -1.2s;
 }
 .neon-orbit:nth-child(5) {
-  right: 4%; bottom: -10%;
-  width: clamp(16rem, 40vw, 38rem);
-  height: clamp(16rem, 40vw, 38rem);
-  color: rgba(99, 102, 255, 0.9);
-  animation-duration: 23s, 8s;
-  animation-delay: -8s, -2.5s;
+  width: clamp(15rem, 36vw, 36rem);
+  height: clamp(15rem, 36vw, 36rem);
+  color: rgba(99, 102, 241, 0.9);
+  animation-duration: 9.8s;
+  animation-delay: -6.5s;
 }
-/* доп. цвета */
 .neon-orbit:nth-child(6) {
-  top: 55%; left: -8%;
-  width: clamp(14rem, 32vw, 32rem);
-  height: clamp(14rem, 32vw, 32rem);
-  color: rgba(34, 211, 180, 0.85);
-  animation-duration: 27s, 8.5s;
-  animation-delay: -3s, -5s;
+  width: clamp(13rem, 30vw, 30rem);
+  height: clamp(13rem, 30vw, 30rem);
+  color: rgba(45, 212, 191, 0.85);
+  animation-duration: 10.5s;
+  animation-delay: -3.8s;
 }
 .neon-orbit:nth-child(7) {
-  top: -5%; left: 42%;
-  width: clamp(12rem, 28vw, 26rem);
-  height: clamp(12rem, 28vw, 26rem);
-  color: rgba(251, 146, 60, 0.75);
-  animation-duration: 21s, 7.2s;
-  animation-delay: -9s, -1.5s;
+  width: clamp(14rem, 32vw, 32rem);
+  height: clamp(14rem, 32vw, 32rem);
+  color: rgba(217, 70, 239, 0.88);
+  animation-duration: 8.8s;
+  animation-delay: -7s;
 }
-@keyframes blob-drift {
-  0%   { transform: translate3d(-6vw, -4vh, 0) scale(0.9); }
-  33%  { transform: translate3d(4vw, 2vh, 0) scale(1.05); }
-  66%  { transform: translate3d(-2vw, 5vh, 0) scale(0.98); }
-  100% { transform: translate3d(7vw, -3vh, 0) scale(1.12); }
-}
-@keyframes blob-pulse {
-  0%, 100% { opacity: 0.22; }
-  50%      { opacity: 0.55; }
+/* погас → вспыхнул → погас (потом JS переносит в другое место) */
+@keyframes blob-glow {
+  0%   { opacity: 0; transform: scale(0.82); }
+  18%  { opacity: 0.5; transform: scale(1); }
+  50%  { opacity: 0.42; transform: scale(1.06); }
+  82%  { opacity: 0.28; transform: scale(0.96); }
+  100% { opacity: 0; transform: scale(0.85); }
 }
 @media (max-width: 768px) {
-  .neon-orbit {
-    filter: blur(36px);
-    animation-duration: 28s, 11s;
-  }
-  .neon-orbit:nth-child(1) { animation-duration: 26s, 10s; }
-  .neon-orbit:nth-child(2) { animation-duration: 32s, 12s; }
-  .neon-orbit:nth-child(3) { animation-duration: 30s, 11s; }
-  .neon-orbit:nth-child(4) { animation-duration: 34s, 13s; }
-  .neon-orbit:nth-child(5) { animation-duration: 29s, 11s; }
-  .neon-orbit:nth-child(6) { animation-duration: 31s, 12s; }
-  .neon-orbit:nth-child(7) { animation-duration: 27s, 10s; }
-  @keyframes blob-drift {
-    0%   { transform: translate3d(-4vw, -3vh, 0) scale(0.94); }
-    50%  { transform: translate3d(3vw, 3vh, 0) scale(1.04); }
-    100% { transform: translate3d(5vw, -2vh, 0) scale(1.08); }
-  }
-  @keyframes blob-pulse {
-    0%, 100% { opacity: 0.18; }
-    50%      { opacity: 0.42; }
+  .neon-orbit { filter: blur(38px); }
+  @keyframes blob-glow {
+    0%   { opacity: 0; transform: scale(0.88); }
+    20%  { opacity: 0.38; transform: scale(1); }
+    50%  { opacity: 0.32; transform: scale(1.04); }
+    100% { opacity: 0; transform: scale(0.9); }
   }
 }
 
@@ -731,6 +710,14 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   padding: 1rem;
 }
 .game-featured.is-swap .game-cover { opacity: 0; }
+.game-featured-index {
+  font-family: var(--font-label);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--text-3);
+  margin-top: 0.85rem;
+}
+.game-featured-index span { color: var(--accent); }
 
 /* ===== PRICES ===== */
 .prices { padding: 7rem 0; }
