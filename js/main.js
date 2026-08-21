@@ -354,25 +354,42 @@ function coverHTML(game) {
   </div>`;
 }
 
-// Игры — аккордеон (как FAQ): клик открывает описание и обложку
+// Слева — аккордеон с текстом, справа — обложка выбранной игры
 function initGames() {
   const root = document.getElementById("games-accordion");
-  if (!root) return;
+  const featured = document.getElementById("game-featured");
+  if (!root || !featured) return;
   const games = GAMES();
   if (!games.length) return;
 
+  let coverSlot = featured.querySelector(".game-cover-slot");
+  if (!coverSlot) {
+    coverSlot = document.createElement("div");
+    coverSlot.className = "game-cover-slot";
+    featured.appendChild(coverSlot);
+  }
+
+  const showCover = (i) => {
+    const g = games[i];
+    if (!g) return;
+    const apply = () => {
+      coverSlot.innerHTML = coverHTML(g);
+    };
+    if (reducedMotion()) {
+      apply();
+      return;
+    }
+    featured.classList.add("is-swap");
+    setTimeout(() => {
+      apply();
+      featured.classList.remove("is-swap");
+    }, 180);
+  };
+
   root.innerHTML = games
-    .map((g, i) => {
-      const src = (resolveGameImage(g) || "").trim();
-      const cover = src
-        ? `<div class="game-cover">
-            <img src="${src}" alt="${g.name}" loading="lazy" decoding="async"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-            <div class="game-cover-fallback" style="display:none">${g.name}</div>
-          </div>`
-        : `<div class="game-cover"><div class="game-cover-fallback">${g.name}</div></div>`;
-      return `
-      <div class="game-acc-item">
+    .map(
+      (g, i) => `
+      <div class="game-acc-item" data-game-index="${i}">
         <h3>
           <button class="game-acc-btn" type="button"
             aria-expanded="false" aria-controls="game-panel-${i + 1}" id="game-btn-${i + 1}">
@@ -385,15 +402,14 @@ function initGames() {
         <div class="game-acc-panel" id="game-panel-${i + 1}" role="region"
           aria-labelledby="game-btn-${i + 1}" aria-hidden="true">
           <div class="game-acc-panel-inner">
-            ${cover}
             <p class="game-acc-desc">${g.desc}</p>
             <div class="game-acc-tags">
               <span>${g.genre}</span><span>${g.age}</span><span>${g.players}</span>
             </div>
           </div>
         </div>
-      </div>`;
-    })
+      </div>`
+    )
     .join("");
 
   const items = Array.from(root.querySelectorAll(".game-acc-item"));
@@ -412,6 +428,8 @@ function initGames() {
     item.classList.add("open");
     button?.setAttribute("aria-expanded", "true");
     panel?.setAttribute("aria-hidden", "false");
+    const idx = Number(item.dataset.gameIndex);
+    if (!Number.isNaN(idx)) showCover(idx);
   };
 
   items.forEach((item) => {
@@ -427,6 +445,10 @@ function initGames() {
       SoundManager.playClick();
     });
   });
+
+  // по умолчанию — первая игра открыта и её обложка справа
+  if (items[0]) openItem(items[0]);
+  else showCover(0);
 }
 
 // Фон hero: hero.jpg или первое фото клуба
