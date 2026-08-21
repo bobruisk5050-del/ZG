@@ -153,9 +153,9 @@ function getHeroImage() {
 // Atmosphere: все фото кроме hero (до 3 штук)
 function getAtmosphereImages() {
   const list = getClubImages();
+  // все фото клуба кроме hero (если только hero — покажем его)
   const rest = list.filter((img) => !img.isHero);
-  const pool = rest.length ? rest : list;
-  return pool.slice(0, 3);
+  return rest.length ? rest : list;
 }
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -572,19 +572,117 @@ function initAtmosphere() {
     return;
   }
 
+  const n = pick.length;
+  const mod = n === 1 ? "1" : n === 2 ? "2" : "many";
+  grid.className = "atmosphere-grid atmosphere-grid--" + mod;
+
   grid.innerHTML = pick
     .map(
       (img, i) => `
-    <div class="atm-item atm-item--${i + 1}">
+    <button type="button" class="atm-item" data-atm-index="${i}" aria-label="Открыть фото ${i + 1}">
       <img src="${img.src}" alt="${img.alt || "ZAGA GAME — фото клуба"}"
         loading="lazy" decoding="async"
         onerror="this.closest('.atm-item')?.remove()">
-    </div>`
+    </button>`
     )
     .join("");
 
-  grid.className = "atmosphere-grid atmosphere-grid--" + Math.min(pick.length, 3);
   section.hidden = false;
+  initLightbox(pick);
+}
+
+// Галерея: открыть фото и листать
+function initLightbox(images) {
+  if (!images || !images.length) return;
+
+  let box = document.getElementById("lightbox");
+  if (!box) {
+    box = document.createElement("div");
+    box.id = "lightbox";
+    box.className = "lightbox";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.setAttribute("aria-label", "Просмотр фото");
+    box.innerHTML = `
+      <button type="button" class="lightbox-close" aria-label="Закрыть">×</button>
+      <button type="button" class="lightbox-prev" aria-label="Предыдущее">‹</button>
+      <div class="lightbox-img-wrap"><img src="" alt=""></div>
+      <button type="button" class="lightbox-next" aria-label="Следующее">›</button>
+      <div class="lightbox-counter"></div>`;
+    document.body.appendChild(box);
+  }
+
+  const imgEl = box.querySelector(".lightbox-img-wrap img");
+  const counter = box.querySelector(".lightbox-counter");
+  let index = 0;
+
+  const show = (i) => {
+    index = (i + images.length) % images.length;
+    const item = images[index];
+    imgEl.src = item.src;
+    imgEl.alt = item.alt || "ZAGA GAME";
+    counter.textContent = `${index + 1} / ${images.length}`;
+  };
+
+  const open = (i) => {
+    show(i);
+    box.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  };
+
+  const close = () => {
+    box.classList.remove("is-open");
+    document.body.style.overflow = "";
+  };
+
+  document.querySelectorAll(".atm-item[data-atm-index]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      open(Number(btn.dataset.atmIndex) || 0);
+      SoundManager.playClick();
+    });
+  });
+
+  box.querySelector(".lightbox-close").addEventListener("click", close);
+  box.querySelector(".lightbox-prev").addEventListener("click", () => {
+    show(index - 1);
+    SoundManager.playClick();
+  });
+  box.querySelector(".lightbox-next").addEventListener("click", () => {
+    show(index + 1);
+    SoundManager.playClick();
+  });
+  box.addEventListener("click", (e) => {
+    if (e.target === box) close();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!box.classList.contains("is-open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") show(index - 1);
+    if (e.key === "ArrowRight") show(index + 1);
+  });
+
+  // свайп на телефоне
+  let touchX = null;
+  box.addEventListener(
+    "touchstart",
+    (e) => {
+      touchX = e.changedTouches[0].screenX;
+    },
+    { passive: true }
+  );
+  box.addEventListener(
+    "touchend",
+    (e) => {
+      if (touchX == null) return;
+      const dx = e.changedTouches[0].screenX - touchX;
+      touchX = null;
+      if (Math.abs(dx) < 40) return;
+      if (dx > 0) show(index - 1);
+      else show(index + 1);
+    },
+    { passive: true }
+  );
 }
 
 function initReviews() {
