@@ -354,7 +354,33 @@ function coverHTML(game) {
   </div>`;
 }
 
-// Слева — аккордеон с текстом, справа — обложка выбранной игры
+// Пятна: после каждого цикла «погас» — новое случайное место
+function initAmbientBlobs() {
+  if (reducedMotion()) return;
+  const blobs = document.querySelectorAll(".neon-orbit");
+  if (!blobs.length) return;
+
+  const place = (el) => {
+    // случайная точка на экране (с небольшим выходом за край)
+    const top = -20 + Math.random() * 100;
+    const left = -20 + Math.random() * 100;
+    el.style.top = top.toFixed(1) + "%";
+    el.style.left = left.toFixed(1) + "%";
+    el.style.right = "auto";
+    el.style.bottom = "auto";
+  };
+
+  blobs.forEach((el) => {
+    place(el);
+    el.addEventListener("animationiteration", () => {
+      // срабатывает, когда пятно снова «погасло» в конце цикла
+      place(el);
+    });
+  });
+}
+
+// Слева: список игр, описание раскрывается под названием
+// Справа: фото выбранной игры (как в первом варианте)
 function initGames() {
   const root = document.getElementById("games-accordion");
   const featured = document.getElementById("game-featured");
@@ -369,11 +395,21 @@ function initGames() {
     featured.appendChild(coverSlot);
   }
 
+  // счётчик 01 / 05 под фото
+  let indexEl = featured.querySelector(".game-featured-index");
+  if (!indexEl) {
+    indexEl = document.createElement("div");
+    indexEl.className = "game-featured-index";
+    featured.appendChild(indexEl);
+  }
+
   const showCover = (i) => {
     const g = games[i];
     if (!g) return;
+    const total = games.length;
     const apply = () => {
       coverSlot.innerHTML = coverHTML(g);
+      indexEl.innerHTML = `<span>${pad(i + 1)}</span> / ${pad(total)}`;
     };
     if (reducedMotion()) {
       apply();
@@ -436,17 +472,14 @@ function initGames() {
     const button = item.querySelector(".game-acc-btn");
     if (!button) return;
     button.addEventListener("click", () => {
-      const wasOpen = item.classList.contains("open");
-      items.forEach((other) => {
-        if (other !== item) closeItem(other);
-      });
-      if (wasOpen) closeItem(item);
-      else openItem(item);
+      // всегда одна открыта — как выбор игры в первом варианте
+      if (item.classList.contains("open")) return;
+      items.forEach((other) => closeItem(other));
+      openItem(item);
       SoundManager.playClick();
     });
   });
 
-  // по умолчанию — первая игра открыта и её обложка справа
   if (items[0]) openItem(items[0]);
   else showCover(0);
 }
