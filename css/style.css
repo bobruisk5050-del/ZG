@@ -37,7 +37,7 @@ img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; border: none; background: none; cursor: pointer; color: inherit; }
 
-/* Пятна света: загораются в разных местах (позиции задаёт JS) */
+/* Пятна света — позиции и вспышки задаёт JS */
 .neon-orbits {
   position: fixed;
   inset: 0;
@@ -47,88 +47,36 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 }
 .neon-orbit {
   position: absolute;
-  top: 40%;
-  left: 40%;
-  width: clamp(16rem, 40vw, 40rem);
-  height: clamp(16rem, 40vw, 40rem);
+  width: clamp(10rem, 22vw, 22rem);
+  height: clamp(10rem, 22vw, 22rem);
   border: none;
   border-radius: 50%;
   background: radial-gradient(
     circle at 40% 40%,
     currentColor 0%,
-    transparent 70%
+    transparent 72%
   );
-  filter: blur(44px);
+  filter: blur(36px);
   opacity: 0;
-  will-change: transform, opacity, top, left;
-  animation: blob-glow 9s ease-in-out infinite;
+  transform: scale(0.85);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  will-change: opacity, transform, top, left;
+  pointer-events: none;
 }
-.neon-orbit:nth-child(1) {
-  width: clamp(18rem, 44vw, 44rem);
-  height: clamp(18rem, 44vw, 44rem);
-  color: rgba(168, 85, 255, 0.95);
-  animation-duration: 8.5s;
-  animation-delay: 0s;
+.neon-orbit.is-on {
+  opacity: 0.55;
+  transform: scale(1.08);
 }
-.neon-orbit:nth-child(2) {
-  width: clamp(14rem, 34vw, 34rem);
-  height: clamp(14rem, 34vw, 34rem);
-  color: rgba(34, 211, 238, 0.9);
-  animation-duration: 10s;
-  animation-delay: -2.5s;
-}
-.neon-orbit:nth-child(3) {
-  width: clamp(17rem, 42vw, 40rem);
-  height: clamp(14rem, 34vw, 32rem);
-  border-radius: 55% 45% 60% 40%;
-  color: rgba(244, 63, 160, 0.92);
-  animation-duration: 9.2s;
-  animation-delay: -5s;
-}
-.neon-orbit:nth-child(4) {
-  width: clamp(12rem, 28vw, 28rem);
-  height: clamp(12rem, 28vw, 28rem);
-  color: rgba(192, 38, 255, 0.88);
-  animation-duration: 11s;
-  animation-delay: -1.2s;
-}
-.neon-orbit:nth-child(5) {
-  width: clamp(15rem, 36vw, 36rem);
-  height: clamp(15rem, 36vw, 36rem);
-  color: rgba(99, 102, 241, 0.9);
-  animation-duration: 9.8s;
-  animation-delay: -6.5s;
-}
-.neon-orbit:nth-child(6) {
-  width: clamp(13rem, 30vw, 30rem);
-  height: clamp(13rem, 30vw, 30rem);
-  color: rgba(45, 212, 191, 0.85);
-  animation-duration: 10.5s;
-  animation-delay: -3.8s;
-}
-.neon-orbit:nth-child(7) {
-  width: clamp(14rem, 32vw, 32rem);
-  height: clamp(14rem, 32vw, 32rem);
-  color: rgba(217, 70, 239, 0.88);
-  animation-duration: 8.8s;
-  animation-delay: -7s;
-}
-/* погас → вспыхнул → погас (потом JS переносит в другое место) */
-@keyframes blob-glow {
-  0%   { opacity: 0; transform: scale(0.82); }
-  18%  { opacity: 0.5; transform: scale(1); }
-  50%  { opacity: 0.42; transform: scale(1.06); }
-  82%  { opacity: 0.28; transform: scale(0.96); }
-  100% { opacity: 0; transform: scale(0.85); }
-}
+.neon-orbit:nth-child(1) { color: rgba(168, 85, 255, 0.95); width: clamp(12rem, 26vw, 26rem); height: clamp(12rem, 26vw, 26rem); }
+.neon-orbit:nth-child(2) { color: rgba(34, 211, 238, 0.9); }
+.neon-orbit:nth-child(3) { color: rgba(244, 63, 160, 0.92); width: clamp(11rem, 24vw, 24rem); height: clamp(9rem, 20vw, 20rem); border-radius: 55% 45% 60% 40%; }
+.neon-orbit:nth-child(4) { color: rgba(192, 38, 255, 0.88); width: clamp(9rem, 18vw, 18rem); height: clamp(9rem, 18vw, 18rem); }
+.neon-orbit:nth-child(5) { color: rgba(99, 102, 241, 0.9); width: clamp(11rem, 23vw, 23rem); height: clamp(11rem, 23vw, 23rem); }
+.neon-orbit:nth-child(6) { color: rgba(45, 212, 191, 0.85); }
+.neon-orbit:nth-child(7) { color: rgba(217, 70, 239, 0.88); width: clamp(10rem, 20vw, 20rem); height: clamp(10rem, 20vw, 20rem); }
 @media (max-width: 768px) {
-  .neon-orbit { filter: blur(38px); }
-  @keyframes blob-glow {
-    0%   { opacity: 0; transform: scale(0.88); }
-    20%  { opacity: 0.38; transform: scale(1); }
-    50%  { opacity: 0.32; transform: scale(1.04); }
-    100% { opacity: 0; transform: scale(0.9); }
-  }
+  .neon-orbit { filter: blur(30px); }
+  .neon-orbit.is-on { opacity: 0.42; }
 }
 
 /* Preloader */
