@@ -336,7 +336,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 
 .hero-visual {
   position: relative;
-  background: var(--bg-3);
+  background: transparent;
   overflow: hidden;
 }
 .hero-visual img.hero-photo {
@@ -496,7 +496,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 }
 
 /* ===== GAMES ===== */
-.games { padding: 7rem 0; background: var(--bg-2); }
+.games { padding: 7rem 0; }
 .games-layout {
   display: grid; grid-template-columns: 0.72fr 1.28fr; gap: 3.5rem;
   margin-top: 2.75rem; align-items: start;
@@ -749,7 +749,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 .cta-book .lead { margin: 0 auto 1.75rem; text-align: center; }
 
 /* ===== CONTACTS ===== */
-.contacts { padding: 4.5rem 0; background: var(--bg-2); }
+.contacts { padding: 4.5rem 0; }
 .contacts-grid {
   display: grid; grid-template-columns: 0.85fr 1fr; gap: 3rem; align-items: center;
 }
