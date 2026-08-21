@@ -1,0 +1,44 @@
+# Автоматически обновляет список фото после добавления файлов в assets/
+name: Auto update assets
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "assets/club/**"
+      - "assets/games/**"
+      - "scripts/generate-assets.js"
+  workflow_dispatch: # кнопка «Run workflow» вручную
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать код
+        uses: actions/checkout@v4
+        with:
+          # чтобы можно было пушить коммит обратно
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Установить Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Сгенерировать список фото
+        run: node scripts/generate-assets.js
+
+      - name: Закоммитить изменения (если есть)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/generated/club-images.js
+          if git diff --staged --quiet; then
+            echo "Изменений нет — манифест уже актуален"
+          else
+            git commit -m "chore: обновить список фото (auto)"
+            git push
+          fi
