@@ -160,7 +160,7 @@ main {
   backdrop-filter: blur(14px);
   border-bottom-color: var(--line);
 }
-.logo-img { height: 26px; width: auto; }
+.logo-img { height: 40px; width: 40px; object-fit: contain; border-radius: 50%; }
 .nav-desktop { display: flex; gap: 1.75rem; list-style: none; }
 .nav-desktop a {
   font-size: 0.85rem; font-weight: 500; color: var(--text-2); transition: color 0.25s;
@@ -343,14 +343,15 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 }
 
 .hero-logo-wrap {
-  width: min(38vw, 160px); margin-bottom: 2rem;
+  width: min(42vw, 160px); margin-bottom: 2rem;
   opacity: 0; transform: translateY(8px);
   transition: opacity 0.7s var(--ease) 0.1s, transform 0.7s var(--ease) 0.1s;
 }
 .hero.ready .hero-logo-wrap { opacity: 1; transform: none; }
 .hero-logo-wrap img {
   width: 100%; height: auto;
-  filter: drop-shadow(0 0 16px var(--accent-glow));
+  border-radius: 50%;
+  filter: drop-shadow(0 0 20px var(--accent-glow));
 }
 .hero-title {
   font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 600;
