@@ -354,89 +354,79 @@ function coverHTML(game) {
   </div>`;
 }
 
-// Список игр слева + большая карточка справа
+// Игры — аккордеон (как FAQ): клик открывает описание и обложку
 function initGames() {
-  const list = document.getElementById("game-list");
-  const featured = document.getElementById("game-featured");
-  if (!list || !featured) return;
+  const root = document.getElementById("games-accordion");
+  if (!root) return;
   const games = GAMES();
   if (!games.length) return;
 
-  let active = 0;
-  let busy = false;
-  const total = games.length;
+  root.innerHTML = games
+    .map((g, i) => {
+      const src = (resolveGameImage(g) || "").trim();
+      const cover = src
+        ? `<div class="game-cover">
+            <img src="${src}" alt="${g.name}" loading="lazy" decoding="async"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="game-cover-fallback" style="display:none">${g.name}</div>
+          </div>`
+        : `<div class="game-cover"><div class="game-cover-fallback">${g.name}</div></div>`;
+      return `
+      <div class="game-acc-item">
+        <h3>
+          <button class="game-acc-btn" type="button"
+            aria-expanded="false" aria-controls="game-panel-${i + 1}" id="game-btn-${i + 1}">
+            <span class="game-acc-num">${pad(i + 1)}</span>
+            <span class="game-acc-name">${g.name}</span>
+            <span class="game-acc-meta">${g.players}</span>
+            <span class="game-acc-arrow" aria-hidden="true"></span>
+          </button>
+        </h3>
+        <div class="game-acc-panel" id="game-panel-${i + 1}" role="region"
+          aria-labelledby="game-btn-${i + 1}" aria-hidden="true">
+          <div class="game-acc-panel-inner">
+            ${cover}
+            <p class="game-acc-desc">${g.desc}</p>
+            <div class="game-acc-tags">
+              <span>${g.genre}</span><span>${g.age}</span><span>${g.players}</span>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    })
+    .join("");
 
-  let coverSlot = featured.querySelector(".game-cover-slot");
-  if (!coverSlot) {
-    coverSlot = document.createElement("div");
-    coverSlot.className = "game-cover-slot";
-    featured.insertBefore(coverSlot, featured.firstChild.nextSibling);
-  }
+  const items = Array.from(root.querySelectorAll(".game-acc-item"));
 
-  function apply(i) {
-    const g = games[i];
-    const idx = document.getElementById("gf-index");
-    if (idx) idx.textContent = pad(i + 1);
-    const name = document.getElementById("gf-name");
-    if (name) name.textContent = g.name;
-    const desc = document.getElementById("gf-desc");
-    if (desc) desc.textContent = g.desc;
-    const tags = document.getElementById("gf-tags");
-    if (tags) {
-      tags.innerHTML = `<span>${g.genre}</span><span>${g.age}</span><span>${g.players}</span>`;
-    }
-    coverSlot.innerHTML = coverHTML(g);
-    const indexEl = featured.querySelector(".game-featured-index");
-    if (indexEl) {
-      indexEl.innerHTML = `<span id="gf-index">${pad(i + 1)}</span> / ${pad(total)}`;
-    }
-    list.querySelectorAll(".game-list-item").forEach((el, idx2) => {
-      el.classList.toggle("active", idx2 === i);
+  const closeItem = (item) => {
+    const button = item.querySelector(".game-acc-btn");
+    const panel = item.querySelector(".game-acc-panel");
+    item.classList.remove("open");
+    button?.setAttribute("aria-expanded", "false");
+    panel?.setAttribute("aria-hidden", "true");
+  };
+
+  const openItem = (item) => {
+    const button = item.querySelector(".game-acc-btn");
+    const panel = item.querySelector(".game-acc-panel");
+    item.classList.add("open");
+    button?.setAttribute("aria-expanded", "true");
+    panel?.setAttribute("aria-hidden", "false");
+  };
+
+  items.forEach((item) => {
+    const button = item.querySelector(".game-acc-btn");
+    if (!button) return;
+    button.addEventListener("click", () => {
+      const wasOpen = item.classList.contains("open");
+      items.forEach((other) => {
+        if (other !== item) closeItem(other);
+      });
+      if (wasOpen) closeItem(item);
+      else openItem(item);
+      SoundManager.playClick();
     });
-  }
-
-  function select(i) {
-    if (i === active || busy) return;
-    active = i;
-    SoundManager.playClick();
-
-    const finish = () => {
-      // На мобиле прокручиваем к карточке выбранной игры
-      if (window.matchMedia("(max-width: 900px)").matches && !reducedMotion()) {
-        const top = featured.getBoundingClientRect().top + window.scrollY - 72;
-        window.scrollTo({ top, behavior: "smooth" });
-      }
-    };
-
-    if (reducedMotion()) {
-      apply(i);
-      finish();
-      return;
-    }
-    busy = true;
-    featured.classList.add("is-swap");
-    setTimeout(() => {
-      apply(i);
-      featured.classList.remove("is-swap");
-      busy = false;
-      finish();
-    }, 220);
-  }
-
-  list.innerHTML = "";
-  games.forEach((g, i) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "game-list-item" + (i === 0 ? " active" : "");
-    btn.setAttribute("role", "option");
-    btn.innerHTML = `
-      <span class="gl-num">${pad(i + 1)}</span>
-      <span class="gl-name">${g.name}</span>
-      <span class="gl-meta">${g.players}</span>`;
-    btn.addEventListener("click", () => select(i));
-    list.appendChild(btn);
   });
-  apply(0);
 }
 
 // Фон hero: hero.jpg или первое фото клуба
