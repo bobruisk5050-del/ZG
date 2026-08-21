@@ -357,25 +357,63 @@ function coverHTML(game) {
 // Пятна: после каждого цикла «погас» — новое случайное место
 function initAmbientBlobs() {
   if (reducedMotion()) return;
-  const blobs = document.querySelectorAll(".neon-orbit");
+  const blobs = Array.from(document.querySelectorAll(".neon-orbit"));
   if (!blobs.length) return;
 
-  const place = (el) => {
-    // случайная точка на экране (с небольшим выходом за край)
-    const top = -20 + Math.random() * 100;
-    const left = -20 + Math.random() * 100;
-    el.style.top = top.toFixed(1) + "%";
-    el.style.left = left.toFixed(1) + "%";
+  // сетка зон, чтобы пятна не слипались в центре
+  const zones = [
+    { t: [0, 25], l: [0, 30] },
+    { t: [0, 25], l: [55, 90] },
+    { t: [35, 60], l: [5, 35] },
+    { t: [35, 60], l: [55, 90] },
+    { t: [65, 95], l: [0, 35] },
+    { t: [65, 95], l: [50, 90] },
+    { t: [20, 45], l: [35, 65] },
+    { t: [50, 75], l: [30, 60] }
+  ];
+
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  const place = (el, zoneIndex) => {
+    const z = zones[zoneIndex % zones.length];
+    el.style.top = rand(z.t[0], z.t[1]).toFixed(1) + "%";
+    el.style.left = rand(z.l[0], z.l[1]).toFixed(1) + "%";
     el.style.right = "auto";
     el.style.bottom = "auto";
   };
 
-  blobs.forEach((el) => {
-    place(el);
-    el.addEventListener("animationiteration", () => {
-      // срабатывает, когда пятно снова «погасло» в конце цикла
-      place(el);
-    });
+  // у каждого пятна свой цикл: погас → новое место → вспыхнуло → погас
+  blobs.forEach((el, i) => {
+    let zone = i; // стартуем в разных зонах
+    place(el, zone);
+
+    const cycle = () => {
+      el.classList.remove("is-on");
+      // после затухания — новая зона
+      setTimeout(() => {
+        zone = (zone + 3 + Math.floor(Math.random() * 4)) % zones.length;
+        place(el, zone);
+        // вспыхнуть
+        requestAnimationFrame(() => el.classList.add("is-on"));
+        // держать и снова погасить
+        const hold = 2200 + Math.random() * 2800;
+        setTimeout(() => {
+          el.classList.remove("is-on");
+          const pause = 800 + Math.random() * 1800;
+          setTimeout(cycle, pause);
+        }, hold);
+      }, 1200); // ждём transition opacity
+    };
+
+    // разный старт, чтобы не мигали хором
+    setTimeout(() => {
+      el.classList.add("is-on");
+      const hold = 1800 + Math.random() * 2200;
+      setTimeout(() => {
+        el.classList.remove("is-on");
+        setTimeout(cycle, 600 + Math.random() * 1200);
+      }, hold);
+    }, i * 450 + Math.random() * 400);
   });
 }
 
@@ -757,6 +795,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("touchstart", unlock);
 
   initNav();
+  initAmbientBlobs();
   initGames();
   initHeroBg();
   initAtmosphere();
