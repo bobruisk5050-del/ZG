@@ -47,63 +47,78 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 }
 .neon-orbit {
   position: absolute;
-  width: clamp(16rem, 42vw, 42rem);
-  height: clamp(16rem, 42vw, 42rem);
+  width: clamp(18rem, 44vw, 46rem);
+  height: clamp(18rem, 44vw, 46rem);
   border: none;
   border-radius: 50%;
-  /* мягкое пятно: центр ярче, края растворяются */
   background: radial-gradient(
     circle at 40% 40%,
     currentColor 0%,
-    transparent 68%
+    transparent 70%
   );
-  filter: blur(48px);
-  opacity: 0.28;
+  filter: blur(42px);
+  opacity: 0.42;
   will-change: transform, opacity;
   animation:
     blob-drift 22s ease-in-out infinite alternate,
     blob-pulse 8s ease-in-out infinite;
 }
 .neon-orbit:nth-child(1) {
-  top: -18%; left: -12%;
-  color: rgba(139, 77, 255, 0.85);
+  top: -20%; left: -14%;
+  color: rgba(168, 85, 255, 0.95);
   animation-duration: 20s, 7s;
   animation-delay: 0s, -1s;
 }
 .neon-orbit:nth-child(2) {
-  top: 12%; right: -18%;
-  width: clamp(14rem, 36vw, 34rem);
-  height: clamp(14rem, 36vw, 34rem);
-  color: rgba(66, 232, 255, 0.75);
+  top: 8%; right: -16%;
+  width: clamp(15rem, 38vw, 38rem);
+  height: clamp(15rem, 38vw, 38rem);
+  color: rgba(56, 232, 255, 0.9);
   animation-duration: 26s, 9s;
   animation-delay: -5s, -3s;
 }
 .neon-orbit:nth-child(3) {
-  bottom: -16%; left: 8%;
-  width: clamp(18rem, 44vw, 40rem);
-  height: clamp(14rem, 34vw, 32rem);
+  bottom: -18%; left: 4%;
+  width: clamp(20rem, 48vw, 44rem);
+  height: clamp(16rem, 36vw, 34rem);
   border-radius: 55% 45% 60% 40%;
-  color: rgba(255, 79, 154, 0.8);
+  color: rgba(255, 64, 160, 0.92);
   animation-duration: 24s, 7.5s;
   animation-delay: -11s, -2s;
 }
 .neon-orbit:nth-child(4) {
-  top: 38%; left: 32%;
-  width: clamp(12rem, 28vw, 28rem);
-  height: clamp(12rem, 28vw, 28rem);
-  color: rgba(210, 68, 255, 0.7);
+  top: 36%; left: 28%;
+  width: clamp(13rem, 30vw, 30rem);
+  height: clamp(13rem, 30vw, 30rem);
+  color: rgba(236, 72, 255, 0.85);
   animation-duration: 30s, 10s;
   animation-delay: -14s, -4s;
 }
 .neon-orbit:nth-child(5) {
-  right: 6%; bottom: -12%;
-  width: clamp(15rem, 38vw, 36rem);
-  height: clamp(15rem, 38vw, 36rem);
-  color: rgba(133, 77, 255, 0.8);
+  right: 4%; bottom: -10%;
+  width: clamp(16rem, 40vw, 38rem);
+  height: clamp(16rem, 40vw, 38rem);
+  color: rgba(99, 102, 255, 0.9);
   animation-duration: 23s, 8s;
   animation-delay: -8s, -2.5s;
 }
-/* заметный, но спокойный дрейф */
+/* доп. цвета */
+.neon-orbit:nth-child(6) {
+  top: 55%; left: -8%;
+  width: clamp(14rem, 32vw, 32rem);
+  height: clamp(14rem, 32vw, 32rem);
+  color: rgba(34, 211, 180, 0.85);
+  animation-duration: 27s, 8.5s;
+  animation-delay: -3s, -5s;
+}
+.neon-orbit:nth-child(7) {
+  top: -5%; left: 42%;
+  width: clamp(12rem, 28vw, 26rem);
+  height: clamp(12rem, 28vw, 26rem);
+  color: rgba(251, 146, 60, 0.75);
+  animation-duration: 21s, 7.2s;
+  animation-delay: -9s, -1.5s;
+}
 @keyframes blob-drift {
   0%   { transform: translate3d(-6vw, -4vh, 0) scale(0.9); }
   33%  { transform: translate3d(4vw, 2vh, 0) scale(1.05); }
@@ -111,12 +126,12 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   100% { transform: translate3d(7vw, -3vh, 0) scale(1.12); }
 }
 @keyframes blob-pulse {
-  0%, 100% { opacity: 0.16; }
-  50%      { opacity: 0.38; }
+  0%, 100% { opacity: 0.22; }
+  50%      { opacity: 0.55; }
 }
 @media (max-width: 768px) {
   .neon-orbit {
-    filter: blur(40px);
+    filter: blur(36px);
     animation-duration: 28s, 11s;
   }
   .neon-orbit:nth-child(1) { animation-duration: 26s, 10s; }
@@ -124,14 +139,16 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   .neon-orbit:nth-child(3) { animation-duration: 30s, 11s; }
   .neon-orbit:nth-child(4) { animation-duration: 34s, 13s; }
   .neon-orbit:nth-child(5) { animation-duration: 29s, 11s; }
+  .neon-orbit:nth-child(6) { animation-duration: 31s, 12s; }
+  .neon-orbit:nth-child(7) { animation-duration: 27s, 10s; }
   @keyframes blob-drift {
     0%   { transform: translate3d(-4vw, -3vh, 0) scale(0.94); }
     50%  { transform: translate3d(3vw, 3vh, 0) scale(1.04); }
     100% { transform: translate3d(5vw, -2vh, 0) scale(1.08); }
   }
   @keyframes blob-pulse {
-    0%, 100% { opacity: 0.14; }
-    50%      { opacity: 0.3; }
+    0%, 100% { opacity: 0.18; }
+    50%      { opacity: 0.42; }
   }
 }
 
@@ -562,11 +579,20 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   .why-item h3 { font-size: 1.3rem; }
 }
 
-/* ===== GAMES (аккордеон как FAQ) ===== */
+/* ===== GAMES: текст-аккордеон слева, фото справа ===== */
 .games { padding: 7rem 0; }
-.games-accordion {
+.games-layout {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 3.5rem;
   margin-top: 2.75rem;
-  max-width: 54rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .games-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+  .game-featured { order: -1; }
+}
+.games-accordion {
   border-top: 1px solid var(--line);
 }
 .game-acc-item {
@@ -574,8 +600,8 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 }
 .game-acc-btn {
   width: 100%;
-  min-height: 4.8rem;
-  padding: 1.15rem 0;
+  min-height: 4.2rem;
+  padding: 1.05rem 0;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -596,7 +622,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 }
 .game-acc-item.open .game-acc-num { color: var(--accent); }
 .game-acc-name {
-  font-size: clamp(1.03rem, 2vw, 1.22rem);
+  font-size: clamp(1.03rem, 2vw, 1.18rem);
   font-weight: 500;
   line-height: 1.35;
   flex: 1;
@@ -606,7 +632,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   font-size: 0.75rem;
   color: var(--text-3);
   margin-left: auto;
-  margin-right: 1rem;
+  margin-right: 0.85rem;
   flex-shrink: 0;
 }
 .game-acc-arrow {
@@ -632,57 +658,26 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 .game-acc-panel-inner {
   min-height: 0;
   overflow: hidden;
-  padding-right: 2rem;
+  padding-right: 1rem;
 }
 .game-acc-item.open .game-acc-panel {
   grid-template-rows: 1fr;
   opacity: 1;
 }
 .game-acc-item.open .game-acc-panel-inner {
-  padding-bottom: 1.5rem;
-}
-.game-acc-panel .game-cover {
-  width: 100%;
-  max-width: 28rem;
-  overflow: hidden;
-  background: transparent;
-  margin-bottom: 1.1rem;
-  position: relative;
-  border: 1px solid var(--line);
-  display: grid;
-  place-items: center;
-}
-.game-acc-panel .game-cover img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: center;
-}
-.game-cover-fallback {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: rgba(244, 3, 253, 0.28);
-  text-align: center;
-  padding: 1rem;
+  padding-bottom: 1.25rem;
 }
 .game-acc-desc {
   color: var(--text-2);
   font-size: 0.95rem;
   line-height: 1.7;
-  max-width: 36rem;
-  margin-bottom: 1rem;
+  max-width: 28rem;
+  margin-bottom: 0.9rem;
 }
 .game-acc-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.85rem;
+  gap: 0.75rem;
 }
 .game-acc-tags span {
   font-size: 0.78rem;
@@ -692,9 +687,50 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 }
 @media (max-width: 600px) {
   .game-acc-meta { display: none; }
-  .game-acc-panel-inner { padding-right: 0; }
-  .game-acc-panel .game-cover { max-width: 100%; }
 }
+
+/* фото справа */
+.game-featured {
+  position: sticky;
+  top: calc(var(--header-h) + 1.25rem);
+}
+.game-cover-slot { width: 100%; }
+.game-cover {
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  transition: opacity 0.35s ease;
+}
+.game-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.6s var(--ease), opacity 0.35s ease;
+}
+@media (hover: hover) {
+  .game-featured:hover .game-cover img { transform: scale(1.02); }
+}
+.game-cover-fallback {
+  position: absolute;
+  inset: 0;
+  min-height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(244, 3, 253, 0.28);
+  text-align: center;
+  padding: 1rem;
+}
+.game-featured.is-swap .game-cover { opacity: 0; }
 
 /* ===== PRICES ===== */
 .prices { padding: 7rem 0; }
