@@ -360,16 +360,15 @@ function initAmbientBlobs() {
   const blobs = Array.from(document.querySelectorAll(".neon-orbit"));
   if (!blobs.length) return;
 
-  // сетка зон, чтобы пятна не слипались в центре
   const zones = [
-    { t: [0, 25], l: [0, 30] },
-    { t: [0, 25], l: [55, 90] },
-    { t: [35, 60], l: [5, 35] },
-    { t: [35, 60], l: [55, 90] },
-    { t: [65, 95], l: [0, 35] },
-    { t: [65, 95], l: [50, 90] },
-    { t: [20, 45], l: [35, 65] },
-    { t: [50, 75], l: [30, 60] }
+    { t: [0, 22], l: [0, 28] },
+    { t: [0, 22], l: [55, 88] },
+    { t: [35, 58], l: [2, 32] },
+    { t: [35, 58], l: [55, 88] },
+    { t: [65, 92], l: [0, 32] },
+    { t: [65, 92], l: [50, 88] },
+    { t: [18, 42], l: [32, 62] },
+    { t: [48, 72], l: [28, 58] }
   ];
 
   const rand = (a, b) => a + Math.random() * (b - a);
@@ -378,42 +377,28 @@ function initAmbientBlobs() {
     const z = zones[zoneIndex % zones.length];
     el.style.top = rand(z.t[0], z.t[1]).toFixed(1) + "%";
     el.style.left = rand(z.l[0], z.l[1]).toFixed(1) + "%";
-    el.style.right = "auto";
-    el.style.bottom = "auto";
   };
 
-  // у каждого пятна свой цикл: погас → новое место → вспыхнуло → погас
   blobs.forEach((el, i) => {
-    let zone = i; // стартуем в разных зонах
+    let zone = i;
     place(el, zone);
+    // стартуем видимыми (CSS по умолчанию opacity > 0)
 
     const cycle = () => {
-      el.classList.remove("is-on");
-      // после затухания — новая зона
+      el.classList.add("is-off");
       setTimeout(() => {
         zone = (zone + 3 + Math.floor(Math.random() * 4)) % zones.length;
         place(el, zone);
-        // вспыхнуть
-        requestAnimationFrame(() => el.classList.add("is-on"));
-        // держать и снова погасить
-        const hold = 2200 + Math.random() * 2800;
+        el.classList.remove("is-off");
+        const hold = 2500 + Math.random() * 3000;
         setTimeout(() => {
-          el.classList.remove("is-on");
-          const pause = 800 + Math.random() * 1800;
-          setTimeout(cycle, pause);
+          el.classList.add("is-off");
+          setTimeout(cycle, 700 + Math.random() * 1500);
         }, hold);
-      }, 1200); // ждём transition opacity
+      }, 1100);
     };
 
-    // разный старт, чтобы не мигали хором
-    setTimeout(() => {
-      el.classList.add("is-on");
-      const hold = 1800 + Math.random() * 2200;
-      setTimeout(() => {
-        el.classList.remove("is-on");
-        setTimeout(cycle, 600 + Math.random() * 1200);
-      }, hold);
-    }, i * 450 + Math.random() * 400);
+    setTimeout(cycle, 2000 + i * 700 + Math.random() * 800);
   });
 }
 
