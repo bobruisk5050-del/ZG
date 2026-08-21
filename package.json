@@ -1,0 +1,10 @@
+{
+  "name": "zaga-game",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "assets": "node scripts/generate-assets.js"
+  },
+  "description": "ZAGA GAME — сайт VR-клуба (статический лендинг)"
+}
