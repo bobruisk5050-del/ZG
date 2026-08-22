@@ -446,8 +446,9 @@ function initGames() {
   };
 
   root.innerHTML = games
-    .map(
-      (g, i) => `
+    .map((g, i) => {
+      const cover = coverHTML(g);
+      return `
       <div class="game-acc-item" data-game-index="${i}">
         <h3>
           <button class="game-acc-btn" type="button"
@@ -461,14 +462,15 @@ function initGames() {
         <div class="game-acc-panel" id="game-panel-${i + 1}" role="region"
           aria-labelledby="game-btn-${i + 1}" aria-hidden="true">
           <div class="game-acc-panel-inner">
+            <div class="game-acc-cover">${cover}</div>
             <p class="game-acc-desc">${g.desc}</p>
             <div class="game-acc-tags">
               <span>${g.genre}</span><span>${g.age}</span><span>${g.players}</span>
             </div>
           </div>
         </div>
-      </div>`
-    )
+      </div>`;
+    })
     .join("");
 
   const items = Array.from(root.querySelectorAll(".game-acc-item"));
@@ -488,14 +490,9 @@ function initGames() {
     button?.setAttribute("aria-expanded", "true");
     panel?.setAttribute("aria-hidden", "false");
     const idx = Number(item.dataset.gameIndex);
-    if (!Number.isNaN(idx)) showCover(idx);
-    // на телефоне фото под списком — чуть прокрутим к нему, если ушли далеко
-    if (window.matchMedia("(max-width: 900px)").matches && !reducedMotion()) {
-      setTimeout(() => {
-        const top = featured.getBoundingClientRect().top + window.scrollY - 72;
-        const visible = featured.getBoundingClientRect().top < window.innerHeight * 0.75;
-        if (!visible) window.scrollTo({ top, behavior: "smooth" });
-      }, 220);
+    // на десктопе обновляем большое фото справа
+    if (!Number.isNaN(idx) && window.matchMedia("(min-width: 901px)").matches) {
+      showCover(idx);
     }
   };
 
