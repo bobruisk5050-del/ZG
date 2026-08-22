@@ -645,8 +645,13 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   align-items: start;
 }
 @media (max-width: 900px) {
-  .games-layout { grid-template-columns: 1fr; gap: 1.5rem; }
-  .game-featured { order: -1; }
+  .games-layout { grid-template-columns: 1fr; gap: 1.25rem; }
+  /* фото не sticky и не поверх списка — иначе на телефоне всё наезжает */
+  .game-featured {
+    order: 0;
+    position: static;
+    top: auto;
+  }
 }
 .games-accordion {
   border-top: 1px solid var(--line);
@@ -745,10 +750,16 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   .game-acc-meta { display: none; }
 }
 
-/* фото справа */
+/* фото справа (на десктопе липнет при скролле) */
 .game-featured {
   position: sticky;
   top: calc(var(--header-h) + 1.25rem);
+}
+@media (max-width: 900px) {
+  .game-featured {
+    position: static;
+    top: auto;
+  }
 }
 .game-cover-slot { width: 100%; }
 .game-cover {
