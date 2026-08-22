@@ -323,24 +323,6 @@ function initScrollProgress() {
   update();
 }
 
-function initBackToTop() {
-  const button = document.getElementById("back-to-top");
-  if (!button) return;
-
-  const update = () => {
-    const visible = window.scrollY > 500;
-    button.classList.toggle("is-visible", visible);
-    button.setAttribute("aria-hidden", visible ? "false" : "true");
-    button.tabIndex = visible ? 0 : -1;
-  };
-
-  button.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" });
-    SoundManager.playClick();
-  });
-  window.addEventListener("scroll", update, { passive: true });
-  update();
-}
 
 function coverHTML(game) {
   const src = (resolveGameImage(game) || "").trim();
@@ -860,6 +842,26 @@ function observeElements() {
 }
 
 // Скрываем FAB «Забронировать», когда видна секция CTA
+
+function initBackToTop() {
+  const button = document.getElementById("back-to-top");
+  if (!button) return;
+
+  const update = () => {
+    const visible = window.scrollY > 500;
+    button.classList.toggle("is-visible", visible);
+    button.setAttribute("aria-hidden", visible ? "false" : "true");
+    button.tabIndex = visible ? 0 : -1;
+  };
+
+  button.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" });
+    SoundManager.playClick();
+  });
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
 function initFabHide() {
   const book = document.getElementById("book");
   if (!book || !window.IntersectionObserver) return;
@@ -894,6 +896,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initPrices();
   initScrollProgress();
   initFabHide();
-  initBackToTop();
   runPreloader();
 });
