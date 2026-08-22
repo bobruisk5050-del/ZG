@@ -402,13 +402,13 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   object-position: center 32%;
   display: block;
 }
-/* глубокий градиент со стороны текста — фото остаётся большим и читаемым одновременно */
+/* лёгкий градиент: текст читается, без «чёрной ямы» */
 .hero.has-photo .hero-visual::after {
   content: '';
   position: absolute; inset: 0;
   background:
-    linear-gradient(90deg, rgba(5,5,5,0.96) 0%, rgba(5,5,5,0.72) 22%, rgba(5,5,5,0.15) 48%, transparent 65%),
-    linear-gradient(to top, rgba(5,5,5,0.55) 0%, transparent 35%);
+    linear-gradient(90deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.45) 28%, rgba(5,5,5,0.08) 52%, transparent 70%),
+    linear-gradient(to top, rgba(5,5,5,0.35) 0%, transparent 42%);
   pointer-events: none;
 }
 .hero-visual-fallback {
@@ -425,7 +425,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
     max-height: 62vh;
   }
   .hero.has-photo .hero-visual::after {
-    background: linear-gradient(to top, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.55) 38%, rgba(5,5,5,0.05) 65%, transparent 80%);
+    background: linear-gradient(to top, rgba(5,5,5,0.75) 0%, rgba(5,5,5,0.25) 40%, transparent 72%);
   }
   .hero-visual img.hero-photo { object-position: center 25%; }
 }
@@ -840,7 +840,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 
 .price-blocks { display: flex; flex-direction: column; }
 .price-block {
-  display: grid; grid-template-columns: 1fr auto auto; gap: 1.5rem;
+  display: grid; grid-template-columns: 1fr auto; gap: 1.5rem;
   align-items: center; padding: 1.4rem 1.25rem;
   border-bottom: 1px solid var(--line);
   position: relative;
@@ -878,14 +878,10 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 .price-block.hit .pb-price .byn-sign {
   color: rgba(244, 3, 253, 0.65);
 }
-.price-block .btn-primary {
-  font-size: 0.72rem; padding: 0.65rem 1rem; white-space: nowrap;
-}
 .price-blocks.is-updating { opacity: 0.4; transition: opacity 0.2s; }
 .price-note { margin-top: 1.15rem; font-size: 0.8rem; color: var(--text-3); }
 @media (max-width: 600px) {
-  .price-block { grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; padding: 1.25rem 1rem; }
-  .price-block .btn-primary { grid-column: 1 / -1; width: 100%; }
+  .price-block { grid-template-columns: 1fr auto; gap: 0.5rem 1rem; padding: 1.25rem 1rem; }
 }
 
 /* ===== REVIEWS ===== */
