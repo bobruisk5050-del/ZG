@@ -818,7 +818,7 @@ function initPrices() {
         return `
         <div class="price-block${r.hit ? " hit" : ""}">
           <div class="pb-time">${r.time}</div>
-          <div class="pb-price">${price}<span>руб.</span></div>
+          <div class="pb-price">${price}<span class="byn-sign" aria-label="белорусских рублей"></span></div>
           <a href="tel:+375299993393" class="btn-primary">Забронировать</a>
         </div>`;
       })
