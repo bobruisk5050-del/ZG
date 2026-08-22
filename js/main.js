@@ -489,6 +489,14 @@ function initGames() {
     panel?.setAttribute("aria-hidden", "false");
     const idx = Number(item.dataset.gameIndex);
     if (!Number.isNaN(idx)) showCover(idx);
+    // на телефоне фото под списком — чуть прокрутим к нему, если ушли далеко
+    if (window.matchMedia("(max-width: 900px)").matches && !reducedMotion()) {
+      setTimeout(() => {
+        const top = featured.getBoundingClientRect().top + window.scrollY - 72;
+        const visible = featured.getBoundingClientRect().top < window.innerHeight * 0.75;
+        if (!visible) window.scrollTo({ top, behavior: "smooth" });
+      }, 220);
+    }
   };
 
   items.forEach((item) => {
