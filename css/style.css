@@ -287,7 +287,12 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   :root { --header-h: 56px; }
   .sound-toggle { min-width: 48px; padding: 0; }
   .sound-label { display: none; }
-  .back-to-top { bottom: 5.5rem; }
+  /* слева, выше нижней панели — не наезжает на «Позвонить» */
+  .back-to-top {
+    right: auto;
+    left: 1rem;
+    bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
@@ -645,13 +650,9 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   align-items: start;
 }
 @media (max-width: 900px) {
-  .games-layout { grid-template-columns: 1fr; gap: 1.25rem; }
-  /* фото не sticky и не поверх списка — иначе на телефоне всё наезжает */
-  .game-featured {
-    order: 0;
-    position: static;
-    top: auto;
-  }
+  .games-layout { grid-template-columns: 1fr; gap: 0; }
+  /* на мобиле отдельный блок фото справа скрыт — фото внутри аккордеона */
+  .game-featured { display: none !important; }
 }
 .games-accordion {
   border-top: 1px solid var(--line);
@@ -746,8 +747,37 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   padding: 0.3rem 0.7rem;
   border: 1px solid var(--line);
 }
+/* обложка внутри аккордеона — только мобила */
+.game-acc-cover {
+  display: none;
+  margin-bottom: 1rem;
+}
+.game-acc-cover .game-cover {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  background: transparent;
+  overflow: hidden;
+}
+.game-acc-cover .game-cover img {
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  margin: 0 auto;
+}
+.game-acc-cover .game-cover-fallback {
+  position: relative;
+  min-height: 6rem;
+}
+@media (max-width: 900px) {
+  .game-acc-cover { display: block; }
+}
 @media (max-width: 600px) {
   .game-acc-meta { display: none; }
+  .game-acc-cover .game-cover img { max-height: 180px; }
 }
 
 /* фото справа (на десктопе липнет при скролле) */
@@ -1049,7 +1079,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 @media (max-width: 600px) {
   .footer {
     grid-template-columns: 1fr; text-align: center; gap: 0.65rem;
-    padding: 1.75rem 1.25rem 5rem;
+    padding: 1.75rem 1.25rem calc(6.5rem + env(safe-area-inset-bottom, 0px));
   }
   .footer-links { justify-content: center; }
 }
