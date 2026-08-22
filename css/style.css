@@ -892,13 +892,11 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   width: 0.55em;
   height: 0.72em;
   margin-left: 0.28em;
-  vertical-align: -0.05em;
-  background-color: var(--text-3);
-  -webkit-mask: url("../assets/byn-ico.svg") center / contain no-repeat;
-  mask: url("../assets/byn-ico.svg") center / contain no-repeat;
+  vertical-align: -0.08em;
+  color: var(--text-3);
 }
 .price-block.hit .pb-price .byn-sign {
-  background-color: rgba(244, 3, 253, 0.65);
+  color: rgba(244, 3, 253, 0.65);
 }
 .price-block .btn-primary {
   font-size: 0.72rem; padding: 0.65rem 1rem; white-space: nowrap;
