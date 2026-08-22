@@ -887,10 +887,19 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 .price-block.hit .pb-price {
   font-size: clamp(1.6rem, 3.4vw, 2.1rem); color: var(--accent);
 }
-.price-block .pb-price span {
-  font-size: 0.7rem; font-weight: 500; color: var(--text-3); margin-left: 0.2rem;
+.price-block .pb-price .byn-sign {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.72em;
+  margin-left: 0.28em;
+  vertical-align: -0.05em;
+  background-color: var(--text-3);
+  -webkit-mask: url("../assets/byn-ico.svg") center / contain no-repeat;
+  mask: url("../assets/byn-ico.svg") center / contain no-repeat;
 }
-.price-block.hit .pb-price span { color: rgba(244,3,253,0.6); }
+.price-block.hit .pb-price .byn-sign {
+  background-color: rgba(244, 3, 253, 0.65);
+}
 .price-block .btn-primary {
   font-size: 0.72rem; padding: 0.65rem 1rem; white-space: nowrap;
 }
