@@ -482,10 +482,9 @@ function initGames() {
     const button = item.querySelector(".game-acc-btn");
     if (!button) return;
     button.addEventListener("click", () => {
-      // всегда одна открыта — как выбор игры в первом варианте
-      if (item.classList.contains("open")) return;
+      const wasOpen = item.classList.contains("open");
       items.forEach((other) => closeItem(other));
-      openItem(item);
+      if (!wasOpen) openItem(item);
       SoundManager.playClick();
     });
   });
@@ -803,7 +802,6 @@ function initPrices() {
         <div class="price-block${r.hit ? " hit" : ""}">
           <div class="pb-time">${r.time}</div>
           <div class="pb-price">${price}${BYN_SIGN}</div>
-          <a href="tel:+375299993393" class="btn-primary">Забронировать</a>
         </div>`;
       })
       .join("");
