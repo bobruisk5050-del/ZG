@@ -894,7 +894,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
 .section-kicker {
   color: var(--accent-cyan);
   font-family: var(--font-label);
-  font-size: 0.62rem;
+  font-size: 0.85rem;
   letter-spacing: 0.16em;
   line-height: 1.4;
   text-transform: uppercase;
