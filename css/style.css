@@ -800,7 +800,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   display: inline-flex; gap: 1.5rem; margin: 1.5rem 0 1.75rem;
 }
 .price-switch button {
-  font-size: 0.85rem; font-weight: 500; color: var(--text-3);
+  font-size: 1rem; font-weight: 500; color: var(--text-3);
   padding-bottom: 0.4rem; border-bottom: 1.5px solid transparent;
   transition: color 0.25s, border-color 0.25s;
 }
@@ -809,7 +809,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-bottom: 1.75rem;
 }
 .price-tabs-extra button {
-  font-size: 0.8rem; color: var(--text-3); padding: 0.35rem 0;
+  font-size: 1rem; color: var(--text-3); padding: 0.35rem 0;
   border-bottom: 1px solid transparent; transition: color 0.25s, border-color 0.25s;
   min-height: 36px;
 }
@@ -856,7 +856,7 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   color: rgba(244, 3, 253, 0.65);
 }
 .price-blocks.is-updating { opacity: 0.4; transition: opacity 0.2s; }
-.price-note { margin-top: 1.15rem; font-size: 0.8rem; color: var(--text-3); }
+.price-note { margin-top: 1.15rem; font-size: 1rem; color: var(--text-3); }
 @media (max-width: 600px) {
   .price-block { grid-template-columns: 1fr auto; gap: 0.5rem 1rem; padding: 1.25rem 1rem; }
 }
