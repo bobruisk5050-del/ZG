@@ -457,7 +457,6 @@ function initGames() {
     button?.setAttribute("aria-expanded", "true");
     panel?.setAttribute("aria-hidden", "false");
     const idx = Number(item.dataset.gameIndex);
-    // на десктопе обновляем большое фото справа
     if (!Number.isNaN(idx) && window.matchMedia("(min-width: 901px)").matches) {
       showCover(idx);
     }
