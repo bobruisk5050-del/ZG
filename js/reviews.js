@@ -1,4 +1,4 @@
-/* ===== ZAGA GAME — Reviews ===== */
+/* ===== ОТЗЫВЫ ===== */
 window.ZAGA_REVIEWS = [
   {
     name: "Алина",
