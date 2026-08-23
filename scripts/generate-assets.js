@@ -1,11 +1,4 @@
 #!/usr/bin/env node
-/**
- * Сканирует папки assets/club и assets/games,
- * пишет манифест в js/generated/club-images.js
- *
- * Запуск: node scripts/generate-assets.js
- * или:   npm run assets
- */
 
 import fs from "fs";
 import path from "path";
