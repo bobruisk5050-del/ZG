@@ -1,13 +1,18 @@
 const PreloaderAnim = (() => {
   const TEXT = "ZAGA GAME";
+
   function reduced() {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
+
   function start(cb) {
     const wrap = document.getElementById("preloader");
     const el = document.getElementById("preloader-type");
     const cursor = document.getElementById("preloader-cursor");
-    if (!el || !wrap) { cb && cb(); return; }
+    if (!el || !wrap) {
+      cb && cb();
+      return;
+    }
 
     const done = () => {
       wrap.classList.add("done");
@@ -35,5 +40,6 @@ const PreloaderAnim = (() => {
     };
     setTimeout(step, 80);
   }
-  return { start, stop() {} };
+
+  return { start };
 })();

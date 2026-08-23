@@ -1,6 +1,3 @@
-/* ===== ЛОГИКА ===== */
-
-// Тарифы: будни / выходные
 const PRICES = {
   vrGames: [
     { time: "5 минут", weekday: 5, weekend: 5 },
@@ -125,12 +122,8 @@ function resolveGameImage(game) {
   return best && bestScore >= 10 ? best.src : "";
 }
 
-function getClubImages() {
-  return CLUB();
-}
-
 function getHeroImage() {
-  const list = getClubImages();
+  const list = CLUB();
   let named = list.find((img) => img.isHero);
   if (!named) {
     named = list.find((img) => {
@@ -144,7 +137,7 @@ function getHeroImage() {
 }
 
 function getAtmosphereImages() {
-  const list = getClubImages();
+  const list = CLUB();
   const rest = list.filter((img) => !img.isHero);
   return rest.length ? rest : list;
 }
@@ -207,10 +200,7 @@ function stars(n) {
 function runPreloader() {
   const after = () => {
     document.body.style.overflow = "";
-    const hero = document.getElementById("hero");
-    const logo = document.getElementById("hero-logo");
-    if (hero) hero.classList.add("ready");
-    if (logo) logo.classList.add("show");
+    document.getElementById("hero")?.classList.add("ready");
     observeElements();
   };
   if (typeof PreloaderAnim === "undefined") {
@@ -325,7 +315,6 @@ function coverHTML(game) {
   </div>`;
 }
 
-// Пятна
 function initAmbientBlobs() {
   if (reducedMotion()) return;
   const blobs = Array.from(document.querySelectorAll(".neon-orbit"));
@@ -560,7 +549,6 @@ function initAtmosphere() {
   initLightbox(pick);
 }
 
-// Галерея
 function initLightbox(images) {
   if (!images || !images.length) return;
 
@@ -800,12 +788,10 @@ function initPrices() {
   render(false);
 }
 
-// Анимация блоков при скролле
 function observeElements() {
+  const nodes = document.querySelectorAll(".fade-up");
   if (reducedMotion()) {
-    document.querySelectorAll(".fade-up, .reveal-title, .reveal-scale").forEach((el) =>
-      el.classList.add("visible")
-    );
+    nodes.forEach((el) => el.classList.add("visible"));
     return;
   }
   const obs = new IntersectionObserver(
@@ -816,9 +802,7 @@ function observeElements() {
     },
     { threshold: 0.12, rootMargin: "0px 0px -24px 0px" }
   );
-  document.querySelectorAll(".fade-up, .reveal-title, .reveal-scale").forEach((el) =>
-    obs.observe(el)
-  );
+  nodes.forEach((el) => obs.observe(el));
 }
 
 
@@ -856,7 +840,7 @@ document.addEventListener("DOMContentLoaded", () => {
   SoundManager.updateUI();
   document.getElementById("sound-toggle")?.addEventListener("click", () => SoundManager.toggle());
 
-  // Разблокировка AudioContext после первого клика/тача
+  // AudioContext оживает только после жеста пользователя
   const unlock = () => {
     SoundManager.init();
     document.removeEventListener("click", unlock);
@@ -875,5 +859,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initPrices();
   initScrollProgress();
   initFabHide();
+  initBackToTop();
   runPreloader();
 });
