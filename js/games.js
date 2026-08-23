@@ -1,5 +1,3 @@
-/* Данные игр. Обложки подтягиваются сами из assets/games/
-   (по имени файла или полю image). После добавления фото: npm run assets */
 window.ZAGA_GAMES = [
   {
     name: "Beat Saber",
