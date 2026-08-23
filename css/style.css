@@ -13,7 +13,7 @@
   --text-2: #c4bbd1;
   --text-3: #756982;
   --line: rgba(238, 220, 255, 0.1);
-  --font: 'Rubik Mono One', system-ui, -apple-system, sans-serif;
+  --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-label: 'Orbitron', system-ui, sans-serif;
   --header-h: 64px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -30,6 +30,7 @@ body {
   color: var(--text);
   font-family: var(--font);
   font-size: 16px;
+  font-weight: 500;
   line-height: 1.6;
   overflow-x: hidden;
 }
