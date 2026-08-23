@@ -1,4 +1,4 @@
-/* ===== ZAGA GAME — основная логика ===== */
+/* ===== ЛОГИКА ===== */
 
 // Тарифы: будни / выходные
 const PRICES = {
@@ -64,13 +64,11 @@ const FAQ_DATA = [
   }
 ];
 
-// Данные из внешних скриптов (games.js, club-images.js, reviews.js)
 const GAMES = () => (window.ZAGA_GAMES && window.ZAGA_GAMES.length ? window.ZAGA_GAMES : []);
 const CLUB = () => (Array.isArray(window.CLUB_IMAGES) ? window.CLUB_IMAGES : []);
 const GAME_IMGS = () => (Array.isArray(window.GAME_IMAGES) ? window.GAME_IMAGES : []);
 const REVIEWS = () => (window.ZAGA_REVIEWS && window.ZAGA_REVIEWS.length ? window.ZAGA_REVIEWS : []);
 
-// "Beat Saber" / "beat-saber.png" → "beatsaber"
 function normKey(s) {
   return String(s || "")
     .toLowerCase()
@@ -78,7 +76,6 @@ function normKey(s) {
     .replace(/[^a-z0-9а-яё]+/gi, "");
 }
 
-// Кодирует пробелы в пути (assets/games/beat saber.png)
 function encodeAssetPath(path) {
   if (!path) return "";
   return String(path)
@@ -87,7 +84,6 @@ function encodeAssetPath(path) {
     .join("/");
 }
 
-// Обложка игры: явный image → авто-поиск по имени в GAME_IMAGES
 function resolveGameImage(game) {
   if (!game) return "";
 
@@ -101,11 +97,9 @@ function resolveGameImage(game) {
   const key = normKey(game.name);
   if (!key) return "";
 
-  // точное совпадение
   let hit = list.find((img) => normKey(img.base) === key);
   if (hit) return hit.src;
 
-  // частичное / по словам названия
   let best = null;
   let bestScore = 0;
   for (const img of list) {
@@ -135,7 +129,6 @@ function getClubImages() {
   return CLUB();
 }
 
-// Hero: файл hero.* или первое фото из списка
 function getHeroImage() {
   const list = getClubImages();
   let named = list.find((img) => img.isHero);
@@ -150,17 +143,14 @@ function getHeroImage() {
   return null;
 }
 
-// Atmosphere: все фото кроме hero (до 3 штук)
 function getAtmosphereImages() {
   const list = getClubImages();
-  // все фото клуба кроме hero (если только hero — покажем его)
   const rest = list.filter((img) => !img.isHero);
   return rest.length ? rest : list;
 }
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Звук кликов интерфейса
 const SoundManager = {
   enabled: false,
   ctx: null,
@@ -230,7 +220,6 @@ function runPreloader() {
   PreloaderAnim.start(after);
 }
 
-// Мобильное меню + плавный скролл по якорям
 function initNav() {
   const burger = document.getElementById("burger");
   const menu = document.getElementById("mobile-menu");
@@ -336,7 +325,7 @@ function coverHTML(game) {
   </div>`;
 }
 
-// Пятна: после каждого цикла «погас» — новое случайное место
+// Пятна
 function initAmbientBlobs() {
   if (reducedMotion()) return;
   const blobs = Array.from(document.querySelectorAll(".neon-orbit"));
@@ -364,7 +353,6 @@ function initAmbientBlobs() {
   blobs.forEach((el, i) => {
     let zone = i;
     place(el, zone);
-    // стартуем видимыми (CSS по умолчанию opacity > 0)
 
     const cycle = () => {
       el.classList.add("is-off");
@@ -384,8 +372,6 @@ function initAmbientBlobs() {
   });
 }
 
-// Слева: список игр, описание раскрывается под названием
-// Справа: фото выбранной игры (как в первом варианте)
 function initGames() {
   const root = document.getElementById("games-accordion");
   const featured = document.getElementById("game-featured");
@@ -400,7 +386,6 @@ function initGames() {
     featured.appendChild(coverSlot);
   }
 
-  // счётчик 01 / 05 под фото
   let indexEl = featured.querySelector(".game-featured-index");
   if (!indexEl) {
     indexEl = document.createElement("div");
@@ -493,7 +478,6 @@ function initGames() {
   else showCover(0);
 }
 
-// Фон hero: hero.jpg или первое фото клуба
 function initHeroBg() {
   const visual = document.getElementById("hero-visual");
   const hero = document.getElementById("hero");
@@ -577,7 +561,7 @@ function initAtmosphere() {
   initLightbox(pick);
 }
 
-// Галерея: открыть фото и листать
+// Галерея
 function initLightbox(images) {
   if (!images || !images.length) return;
 
@@ -648,7 +632,6 @@ function initLightbox(images) {
     if (e.key === "ArrowRight") show(index + 1);
   });
 
-  // свайп на телефоне
   let touchX = null;
   box.addEventListener(
     "touchstart",
@@ -818,7 +801,7 @@ function initPrices() {
   render(false);
 }
 
-// Анимация появления блоков при скролле
+// Анимация блоков при скролле
 function observeElements() {
   if (reducedMotion()) {
     document.querySelectorAll(".fade-up, .reveal-title, .reveal-scale").forEach((el) =>
@@ -839,7 +822,6 @@ function observeElements() {
   );
 }
 
-// Скрываем FAB «Забронировать», когда видна секция CTA
 
 function initBackToTop() {
   const button = document.getElementById("back-to-top");
