@@ -1,3 +1,4 @@
+/* Автогенерация by scripts/generate-assets.js — не редактировать вручную */
 window.CLUB_IMAGES = [
   {
     "file": "hero.jpg",
