@@ -30,4 +30,4 @@ window.ZAGA_REVIEWS = [
     source: "Гости клуба"
   }
 ];
-window.ZAGA_RATING = { value: 5, count: 8, source: "Отзывы гостей" };
+window.ZAGA_RATING = { value: 5, count: 5, source: "Отзывы гостей" };
