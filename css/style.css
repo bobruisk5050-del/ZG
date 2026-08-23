@@ -402,15 +402,6 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   object-position: center 32%;
   display: block;
 }
-/* лёгкий градиент: текст читается, без «чёрной ямы» */
-.hero.has-photo .hero-visual::after {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    linear-gradient(90deg, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.45) 28%, rgba(5,5,5,0.08) 52%, transparent 70%),
-    linear-gradient(to top, rgba(5,5,5,0.35) 0%, transparent 42%);
-  pointer-events: none;
-}
 .hero-visual-fallback {
   position: absolute; inset: 0;
   background:
@@ -423,9 +414,6 @@ body.near-cta .fab-book { opacity: 0; pointer-events: none; transform: translate
   .hero-visual {
     aspect-ratio: 4 / 5;
     max-height: 62vh;
-  }
-  .hero.has-photo .hero-visual::after {
-    background: linear-gradient(to top, rgba(5,5,5,0.75) 0%, rgba(5,5,5,0.25) 40%, transparent 72%);
   }
   .hero-visual img.hero-photo { object-position: center 25%; }
 }
